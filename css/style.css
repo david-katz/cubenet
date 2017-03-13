@@ -1,0 +1,121 @@
+/*
+Copyright (c) 2017 by Jordan Leigh (http://codepen.io/jordizle/pen/haIdo)
+Copyright (c) 2017 by David Katz
+Elements inspired by https://github.com/rupl/unfold, made available under https://creativecommons.org/licenses/by-sa/3.0/
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+IN THE SOFTWARE.
+*/
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+body {
+    background: #1b1b1b;
+    font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+    font-weight: 300;
+}
+#wrapper {
+    padding-top: 5%;
+}
+.viewport {
+    position: absolute;
+    /* or absolute */
+    
+    top: 35%;
+    left: 40%;
+    width: 400px;
+    height: 250px;
+    perspective: 2000px;
+    perspective-origin: 100% 100px;
+    transform: scale(0.8, 0.8);
+    -webkit-box-reflect: below 50px -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(250, 250, 250, 0.1)));
+}
+.cube {
+    margin: 0 auto;
+    transform-style: preserve-3d;
+    background: rgba(226, 131, 213, 0.9);
+    transform: rotateX(136deg) rotateY(1122deg);
+}
+.cube .side {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.cube,
+.cube .side {
+    width: 8em;
+    height: 8em;
+    backface-visibility: visible;
+    transform-style: preserve-3d;
+}
+.cube .top {
+    transition: all 1s linear 0s;
+    top: -8em;
+    background: rgba(70, 143, 235, 0.9);
+    transform: rotateX(90deg);
+    transform-origin: 50% 100%;
+}
+.cube .left {
+    transition: all 1s linear 1s;
+    left: -8em;
+    background: rgba(46, 193, 125, 0.9);
+    transform: rotateY(-90deg);
+    transform-origin: 100% 50%;
+}
+.cube .right {
+    transition: all 1s linear 2s;
+    left: 8em;
+    background: rgba(191, 120, 81, 0.9);
+    transform: rotateY(90deg);
+    transform-origin: 0% 50%;
+}
+.cube .bottom {
+    transition: all 1s linear 3s;
+    top: 8em;
+    background: rgba(217, 217, 217, 0.9);
+    transform: rotateX(-90deg);
+    transform-origin: 50% 0%;
+}
+.cube .back {
+    transition: all 1s linear 3s;
+    top: 8em;
+    background: rgba(255, 204, 0, 0.9);
+    transform: rotateX(-90deg);
+    transform-origin: 50% 0%;
+}
+.cube .bottom .back {
+    transition: all 1s linear 4s;
+    top: 8em;
+    background: rgba(201, 37, 36, 0.9);
+    transform: rotateX(-90deg);
+    transform-origin: 50% 0%;
+}
+.cube .flat {
+    transition: all 1s linear 0s;
+    transform: rotateX(0deg);
+}
+.cube .bottom .flat {
+    transform: rotateX(0deg);
+    transition: all 1s linear 0s;
+}
+object {
+    opacity: 0.5;
+}
+object:hover {
+    opacity: 1;
+}
+@media (max-width: 640px) {
+    .viewport {
+        transform: scale(0.6, 0.6);
+    }
+}

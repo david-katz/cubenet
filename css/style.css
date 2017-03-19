@@ -19,6 +19,7 @@ IN THE SOFTWARE.
 *:after {
     box-sizing: border-box;
 }
+
 body {
     background: #1b1b1b;
     font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
@@ -42,12 +43,14 @@ body {
 }
 .cube {
     margin: 0 auto;
+    border-radius: 10px;
     transform-style: preserve-3d;
-    background: rgba(226, 131, 213, 0.9);
+    background: rgba(226, 131, 213, 1);
     transform: rotateX(136deg) rotateY(1122deg);
 }
 .cube .side {
     position: absolute;
+    border-radius: 10px;
     top: 0;
     left: 0;
 }
@@ -58,45 +61,38 @@ body {
     backface-visibility: visible;
     transform-style: preserve-3d;
 }
-.cube .top {
+.side.top {
     transition: all 1s linear 0s;
     top: -8em;
-    background: rgba(70, 143, 235, 0.9);
+    background: rgba(70, 143, 235, 1);
     transform: rotateX(90deg);
     transform-origin: 50% 100%;
 }
-.cube .left {
+.side.left {
     transition: all 1s linear 1s;
     left: -8em;
-    background: rgba(46, 193, 125, 0.9);
+    background: rgba(46, 193, 125, 1);
     transform: rotateY(-90deg);
     transform-origin: 100% 50%;
 }
-.cube .right {
+.side.right {
     transition: all 1s linear 2s;
     left: 8em;
-    background: rgba(191, 120, 81, 0.9);
+    background: rgba(191, 120, 81, 1);
     transform: rotateY(90deg);
     transform-origin: 0% 50%;
 }
-.cube .bottom {
+.side.bottom {
     transition: all 1s linear 3s;
     top: 8em;
-    background: rgba(217, 217, 217, 0.9);
+    background: rgba(217, 217, 217, 1);
     transform: rotateX(-90deg);
     transform-origin: 50% 0%;
 }
-.cube .back {
-    transition: all 1s linear 3s;
-    top: 8em;
-    background: rgba(255, 204, 0, 0.9);
-    transform: rotateX(-90deg);
-    transform-origin: 50% 0%;
-}
-.cube .bottom .back {
+.side.back {
     transition: all 1s linear 4s;
     top: 8em;
-    background: rgba(201, 37, 36, 0.9);
+    background: rgba(255, 204, 0, 1);
     transform: rotateX(-90deg);
     transform-origin: 50% 0%;
 }
@@ -108,14 +104,50 @@ body {
     transform: rotateX(0deg);
     transition: all 1s linear 0s;
 }
-object {
-    opacity: 0.5;
+
+.dot {
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	background: #444;
+	box-shadow:inset 5px 0 10px #000;
 }
-object:hover {
-    opacity: 1;
+
+.dot.center {
+	position: absolute;
+	left: 38%;
+	top: 38%;
 }
-@media (max-width: 640px) {
-    .viewport {
-        transform: scale(0.6, 0.6);
-    }
+.dot.center.right {
+	position: absolute;
+	left:68%;
+	top: 38%;
 }
+.dot.center.left {
+	position: absolute;
+	left: 10%;
+	top: 38%;
+}
+.dot.top.right {
+	position: absolute;
+	right: 10%;
+	top: 8%;
+}
+
+.dot.top.left {
+	position: absolute;
+	left: 10%;
+	top: 8%;
+}
+.dot.bottom.left {
+	position: absolute;
+	left: 10%;
+	bottom: 8%;
+}
+.dot.bottom.right {
+	position: absolute;
+	right: 10%;
+	bottom: 8%;
+}
+
+

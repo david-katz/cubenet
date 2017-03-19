@@ -44,7 +44,7 @@ body {
     margin: 0 auto;
     transition: all 0.5s linear 0s;
     border-radius: 10px;
-    transform: rotateX(-20deg) rotateY(-10deg);
+    transform: rotateX(-20deg) rotateY(-10deg) scale3d(2,2,2);
     transform-style: preserve-3d;
     background: rgba(226, 131, 213, 1);
     /* allows rotation to happen around the center of cube, and not around one of the faces */
@@ -60,7 +60,7 @@ body {
 .cube .side {
     width: 8em;
     height: 8em;
-    backface-visibility: visible;
+    backface-visibility: hidden;
     transform-style: preserve-3d;
 }
 .side.top {

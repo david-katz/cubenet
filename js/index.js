@@ -139,6 +139,8 @@ function Viewport(data) {
   this.torqueX = 0;
   this.torqueY = 0;
 
+  this.scale = 1;
+
   this.flat = false;
   this.down = false;
 
@@ -201,6 +203,15 @@ function Viewport(data) {
   bindEvent(document, 'keypress', function(e) {
      e = e || window.event;
     switch(e.keyCode) {
+        case 45:
+            e.preventDefault();
+            self.rotate('zoomout');
+            break;
+
+        case 43:
+            e.preventDefault();
+            self.rotate('zoomin');
+            break;
 
         case 108:
             e.preventDefault();
@@ -261,6 +272,12 @@ events.implement(Viewport);
 
 Viewport.prototype.rotate = function(direction) {
   switch(direction) {
+    case "zoomout":
+      this.scale -= 0.5;
+      break;
+    case "zoomin":
+      this.scale += 0.5;
+      break;
     case "left":
       this.positionZ -= 90;
       break;
@@ -309,10 +326,15 @@ Viewport.prototype.rotate = function(direction) {
 
 Viewport.prototype.doRotate = function() {
 
-  if(this.positionX != this.previousPositionX || this.positionZ != this.previousPositionZ) {
-    this.element.style[userPrefix.js + 'Transform'] = 'rotateX(' + this.positionX + 'deg) rotateY(' + this.positionY + 'deg) rotateZ(' + this.positionZ + 'deg) ';
+  if(this.scale != this.previousScale
+    || this.positionX != this.previousPositionX 
+    || this.positionY != this.previousPositionY
+    || this.positionZ != this.previousPositionZ) {
+    this.element.style[userPrefix.js + 'Transform'] = 'scale3d(' + this.scale + ','  + this.scale + ',' + this.scale +') rotateX(' + this.positionX + 'deg) rotateY(' + this.positionY + 'deg) rotateZ(' + this.positionZ + 'deg) ';
 
+    this.previousScale = this.scale;
     this.previousPositionX = this.positionX;
+    this.previousPositionY = this.positionY;    
     this.previousPositionZ = this.positionZ;
     //this.emit('rotate');
   }

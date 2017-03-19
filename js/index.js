@@ -131,16 +131,19 @@ function Viewport(data) {
   this.mouseY = 0;
   this.distanceX = 0;
   this.distanceY = 0;
-  this.positionX = 1122;
-  this.positionY = 136;
+
+  this.positionX = -20;
+  this.positionY = -10;
+  this.positionZ = 0;
+  
   this.torqueX = 0;
   this.torqueY = 0;
 
   this.flat = false;
   this.down = false;
 
+  this.previousPositionZ = 0;
   this.previousPositionX = 0;
-  this.previousPositionY = 0;
 
   this.currentSide = 0;
   this.calculatedSide = 0;
@@ -179,12 +182,10 @@ function Viewport(data) {
     }
 
     if(e.touches.length == 1) {
-
       e.touches ? e = e.touches[0] : null;
 
       self.mouseX = e.pageX / self.touchSensivity;
       self.mouseY = e.pageY / self.touchSensivity;
-
     }
   });
 
@@ -197,9 +198,126 @@ function Viewport(data) {
     self.emit('flatten', { flat: self.flat });
   });
 
-  setInterval(this.animate.bind(this), this.fps);
+  bindEvent(document, 'keypress', function(e) {
+     e = e || window.event;
+    switch(e.keyCode) {
+
+        case 108:
+            e.preventDefault();
+            self.rotate('left');
+            break;
+
+        case 114:
+            e.preventDefault();
+            self.rotate('right');
+            break;
+
+        case 100:
+            e.preventDefault();
+            self.rotate('down');
+            break;
+
+        case 117:
+            e.preventDefault();
+            self.rotate('up');
+            break;
+
+        case 49:
+            e.preventDefault();
+            self.rotate('1');
+            break;
+
+        case 50:
+            e.preventDefault();
+            self.rotate('2');
+            break;
+
+        case 51:
+            e.preventDefault();
+            self.rotate('3');
+            break;
+
+        case 52:
+            e.preventDefault();
+            self.rotate('4');
+            break;
+
+        case 53:
+            e.preventDefault();
+            self.rotate('5');
+            break;
+
+        case 54:
+            e.preventDefault();
+            self.rotate('6');
+            break;
+
+        }
+  });
+
+  setInterval(this.animate.bind(this), 1000/this.fps);
 }
 events.implement(Viewport);
+
+Viewport.prototype.rotate = function(direction) {
+  switch(direction) {
+    case "left":
+      this.positionZ -= 90;
+      break;
+    case "right":
+      this.positionZ += 90;
+      break;
+    case "up":
+    this.positionX += 90;
+      break;
+    case "down":
+    this.positionX -= 90;
+      break;
+    case "1":
+      this.positionX = 160;
+      this.positionY = 10;
+      this.positionZ = 175;
+      break;
+    case "2":
+      this.positionX = 70;    
+      this.positionZ = 10;
+      break;
+    case "3":
+      this.positionX = 250;    
+      this.positionY = 0;
+      this.positionZ = -100;
+      break;
+    case "4":
+      this.positionX = 70;    
+      this.positionY = 0;
+      this.positionZ = 280;
+      break;
+    case "5":
+      this.positionX = 250;
+      this.positionY = 0;    
+      this.positionZ = -10;
+      break;
+    case "6":
+      this.positionX = -20;    
+      this.positionY = -10;    
+      this.positionZ = 0;
+      break;
+  }
+
+  this.doRotate();
+}
+
+Viewport.prototype.doRotate = function() {
+
+  if(this.positionX != this.previousPositionX || this.positionZ != this.previousPositionZ) {
+    this.element.style[userPrefix.js + 'Transform'] = 'rotateX(' + this.positionX + 'deg) rotateY(' + this.positionY + 'deg) rotateZ(' + this.positionZ + 'deg) ';
+
+    this.previousPositionX = this.positionX;
+    this.previousPositionZ = this.positionZ;
+    //this.emit('rotate');
+  }
+}
+
 Viewport.prototype.animate = function() {
 
   this.distanceX = (this.mouseX - this.lastX);
@@ -219,38 +337,18 @@ Viewport.prototype.animate = function() {
       this.torqueY *= this.sensivityFade;
     }
 
-    this.positionY -= this.torqueY;
+    this.positionX -= this.torqueY;
 
-    if(this.positionY > 360) {
-      this.positionY -= 360;
-    } else if(this.positionY < 0) {
-      this.positionY += 360;
-    }
 
-    if(this.positionY > 90 && this.positionY < 270) {
-      this.positionX -= this.torqueX;
+    if(this.positionX > 90 && this.positionX < 270) {
+      this.positionZ -= this.torqueX;
 
     } else {
-      this.positionX += this.torqueX;
-    }
-
-    if(this.positionX > 360) {
-      this.positionX -= 360;
-    } else if(this.positionX < 0) {
-      this.positionX += 360;
+      this.positionZ += this.torqueX;
     }
   }
 
-  this.element.style[userPrefix.js + 'Transform'] = 'rotateX(' + this.positionY + 'deg) rotateZ(' + this.positionX + 'deg)';
-
-  if(this.positionY != this.previousPositionY || this.positionX != this.previousPositionX) {
-    this.previousPositionY = this.positionY;
-    this.previousPositionX = this.positionX;
-
-    this.emit('rotate');
-
-  }
-
+  this.doRotate();
 }
 var viewport = new Viewport({
   element: document.getElementsByClassName('cube')[0],
@@ -276,6 +374,7 @@ function Cube(data) {
        self.unflatten(); 
     }
   });
+
 }
 
 Cube.prototype.flatten = function() {
@@ -290,9 +389,7 @@ Cube.prototype.unflatten = function() {
   }
 }
 
-
 new Cube({
   viewport: viewport,
   element: document.getElementsByClassName('cube')[0]
 });
-

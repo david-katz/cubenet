@@ -139,7 +139,7 @@ function Viewport(data) {
   this.torqueX = 0;
   this.torqueY = 0;
 
-  this.scale = 1;
+  this.scale = 2;
 
   this.flat = false;
   this.down = false;
@@ -293,10 +293,11 @@ Viewport.prototype.rotate = function(direction) {
     case "1":
       this.positionX = 160;
       this.positionY = 10;
-      this.positionZ = 175;
+      this.positionZ = 180;
       break;
     case "2":
-      this.positionX = 70;    
+      this.positionX = 70;
+      this.positionY = 0;     
       this.positionZ = 10;
       break;
     case "3":
